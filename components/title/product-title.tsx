@@ -1,5 +1,5 @@
 import React from "react";
 
-const ProductTitle = ({ title }: { title: string }) => <p>{title}</p>;
+const CourseTitle = ({ title }: { title: string }) => <p>{title}</p>;
 
-export default ProductTitle;
+export default CourseTitle;

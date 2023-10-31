@@ -1,9 +1,7 @@
-const ProductDescription = ({ description }: {
-    description: string
-}) => {
+const Description = ({ description }: { description: string }) => {
     return (
-        <desc>{description}</desc>
-    )
-}
+        <div dangerouslySetInnerHTML={{ __html: description }} />
+    );
+};
 
-export default ProductDescription;
+export default Description;
