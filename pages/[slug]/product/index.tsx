@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Head from "next/head";
 import {
   About,
   ExclusiveFeatures,
@@ -19,64 +19,86 @@ import CourseChecklist from "@/components/checklist";
 import RenderHTML from "@/components/htmlRenderer";
 import CourseSections from "@/components/course-sections";
 import FeaturesCard from "@/components/featuresCard";
-import MetaTags from '@/components/metaTags';
-import InstructorWrapper from '@/components/instructorWrapper';
+import MetaTags from "@/components/metaTags";
+import InstructorWrapper from "@/components/instructorWrapper";
+import { useRouter } from "next/router";
+import Layout from "@/components/layout";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 const api =
   "https://api.10minuteschool.com/discovery-service/api/v1/products/ielts-course";
 
-export const getStaticProps = async () => {
-  const res = await fetch(api, {
+export const getStaticPaths = async () => {
+
+  const paths = ['bn', 'en'].map((lang) => ({
+    params: { slug: lang },
+  }))
+
+  return {
+    paths: paths,
+    fallback: true,
+  }
+};
+
+export const getStaticProps = async ({ params }: any) => {
+  const res = await fetch(`${api}?lang=${params.slug}`, {
     headers: {
-      'X-TENMS-SOURCE-PLATFORM': 'web'
-    }
+      "X-TENMS-SOURCE-PLATFORM": "web",
+    },
   });
   const data = await res.json();
-  return { props: { data, revalidate: 10,fallback: 'blocking' } };
+
+  return {
+    props: {
+      data,
+      revalidate: 10
+    },
+  };
 };
 
 
 export default function Home({ data }: { data: ProductResponse<any> }) {
-  const response = data.data;
-  const courseTitle = response?.title;
-  const description = response?.description;
 
-  const seoTitle = response?.seo.title
-  const meta = response?.seo.defaultMeta
+  if (!data) {
+    return <LoadingSpinner />
+  }
+
+  const response = data?.data;
+  const {
+    title: courseTitle,
+    description,
+    seo: { title: seoTitle, defaultMeta: meta },
+    sections,
+  } = response;
 
   const instructors: SectionResponse<Instructors> = findObjectByType({
-    list: response?.sections,
+    list: sections,
     type: "instructors",
   });
   const features: SectionResponse<Features> = findObjectByType({
-    list: response?.sections,
+    list: sections,
     type: "features",
   });
   const pointers: SectionResponse<Pointers> = findObjectByType({
-    list: response?.sections,
+    list: sections,
     type: "pointers",
   });
-  const featureExplanations: SectionResponse<ExclusiveFeatures> = findObjectByType({
-    list: response?.sections,
-    type: "feature_explanations",
-  });
+  const featureExplanations: SectionResponse<ExclusiveFeatures> =
+    findObjectByType({
+      list: sections,
+      type: "feature_explanations",
+    });
   const about: SectionResponse<About> = findObjectByType({
-    list: response?.sections,
+    list: sections,
     type: "about",
   });
 
   return (
-    <>
-      <Head>
-        <title>{seoTitle}</title>
-        <MetaTags metaTags={meta} />
-      </Head>
+    <Layout pageTitle={seoTitle} meta={meta}>
       <main className="container flex flex-col gap-4 md:flex-row md:gap-12 md:pt-10">
         <div className="order-2 flex-1 md:order-1  md:max-w-[calc(100%_-_348px)] lg:max-w-[calc(100%_-_448px)]">
           <CourseSections>
-            {/* title */}
             <CourseTitle title={courseTitle} />
-            {/* description */}
             <RenderHTML htmlContent={description} />
           </CourseSections>
 
@@ -102,22 +124,24 @@ export default function Home({ data }: { data: ProductResponse<any> }) {
 
           <CourseSections title={featureExplanations?.name}>
             <div className="grid grid-cols-1 divide-y rounded-md border px-5">
-              {featureExplanations?.values?.map((features: ExclusiveFeatures) => {
-                return (
-                  <CourseExclusiveFeatures key={features.title} features={features} />
-                );
-              })}
+              {featureExplanations?.values?.map(
+                (features: ExclusiveFeatures) => {
+                  return (
+                    <CourseExclusiveFeatures
+                      key={features.title}
+                      features={features}
+                    />
+                  );
+                }
+              )}
             </div>
-
           </CourseSections>
 
           <CourseSections title={about?.name}>
             <div className="max-w-auto bg-white shadow dark:bg-gray-800 dark:border-gray-700">
               <div id="accordion-collapse" data-accordion="collapse">
                 {about?.values?.map((about: About, i: number) => {
-                  return (
-                    <CourseDetail key={i} detail={about} index={i + 1} />
-                  );
+                  return <CourseDetail key={i} detail={about} index={i + 1} />;
                 })}
               </div>
             </div>
@@ -133,6 +157,6 @@ export default function Home({ data }: { data: ProductResponse<any> }) {
           </CourseSections>
         </div>
       </main>
-    </>
+    </Layout>
   );
 }
