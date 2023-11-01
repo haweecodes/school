@@ -11,7 +11,7 @@ const CourseTrailer = () => {
       <ReactPlayer
         url={staticUrl}
         height={300}
-        width={400}
+        width='auto'
         config={{
           youtube: {
             playerVars: { showinfo: 1 }
