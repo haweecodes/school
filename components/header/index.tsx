@@ -32,7 +32,7 @@ const Navigation = () => {
                         <span className="sr-only">menu</span>
                     </button>
                     <div className="md:hidden">
-                        <a className="h-[27px] w-[100px]">
+                        <a className="h-[27px] w-[100px]" href="#">
                             <div className="transition-opacity duration-300 ease-in-out">
                                 <Image
                                     alt="10ms"
@@ -49,7 +49,7 @@ const Navigation = () => {
                     </div>
                 </div>
                 <div className="hidden items-center gap-9 md:flex">
-                    <a className="h-[27px] w-[100px]">
+                    <a className="h-[27px] w-[100px]" href="#">
                         <div className="transition-opacity duration-300 ease-in-out">
                             <Image
                                 alt="10ms"
@@ -104,6 +104,7 @@ const Navigation = () => {
                             >
                                 <div className="text-base">
                                     <a
+                                        href="#"
                                         className=" flex cursor-pointer items-center gap-2 hover:text-green"
                                     >
                                         Class 5-12{" "}
@@ -133,6 +134,7 @@ const Navigation = () => {
                             >
                                 <div className="text-base">
                                     <a
+                                        href="#"
                                         className=" flex cursor-pointer items-center gap-2 hover:text-green"
                                     >
                                         Skills{" "}
@@ -155,12 +157,12 @@ const Navigation = () => {
                             </div>
                         </li>
                         <li>
-                            <a className=" hover:text-green">
+                            <a className=" hover:text-green" href="#">
                                 Admission{" "}
                             </a>
                         </li>
                         <li>
-                            <a className=" hover:text-green">
+                            <a className=" hover:text-green" href="#">
                                 Jobs{" "}
                             </a>
                         </li>
@@ -172,6 +174,7 @@ const Navigation = () => {
                             >
                                 <div className="text-base">
                                     <a
+                                        href="#"
                                         className=" flex cursor-pointer items-center gap-2 hover:text-green"
                                     >
                                         Online Batch 2023{" "}
@@ -248,6 +251,7 @@ const Navigation = () => {
                             </svg>
                             <span>{lang ? 'বাং' : 'EN'}</span></button>
                         <a
+                            href="#"
                             className="hidden items-center gap-1 text-green md:flex"
                         >
                             <svg
@@ -267,6 +271,7 @@ const Navigation = () => {
                             <span className="inline-block">16910</span>
                         </a>
                         <a
+                            href="#"
                             className="flex items-center gap-1 text-black md:hidden"
                         >
                             <svg
