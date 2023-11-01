@@ -1,8 +1,25 @@
-const CourseTrailer = ({ content }: any) => {
+import React, { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+const ReactPlayer = dynamic(() => import('react-player/lazy'), { ssr: false });
+
+const CourseTrailer = () => {
+  
+  // did not get any video url in media property all jpg
+  const staticUrl = "https://youtu.be/zrlYnaZftEQ"
   return (
-    <video width="320" height="240" controls>
-      <source src={content.download_link} type="video/mp4" />
-    </video>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReactPlayer
+        url={staticUrl}
+        height={300}
+        width={400}
+        config={{
+          youtube: {
+            playerVars: { showinfo: 1 }
+          },
+        }}
+      />
+    </Suspense>
+
   );
 };
 
