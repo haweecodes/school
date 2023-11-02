@@ -149,8 +149,8 @@ export default function Home({ data }: { data: ProductResponse<any> }) {
         <div className="order-1 w-full md:max-w-[330px] lg:max-w-[400px]">
           <CourseTrailer />
           <CourseSections>
-            <CourseCTA content={response?.cta_text} />
             <div className="max-w-auto p-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <CourseCTA content={response?.cta_text} />
               <CourseChecklist checklist={response?.checklist} />
             </div>
           </CourseSections>
