@@ -1,4 +1,3 @@
-import Head from "next/head";
 import {
   About,
   ExclusiveFeatures,
@@ -19,11 +18,9 @@ import CourseChecklist from "@/components/checklist";
 import RenderHTML from "@/components/htmlRenderer";
 import CourseSections from "@/components/course-sections";
 import FeaturesCard from "@/components/featuresCard";
-import MetaTags from "@/components/metaTags";
-import InstructorWrapper from "@/components/instructorWrapper";
-import { useRouter } from "next/router";
 import Layout from "@/components/layout";
 import LoadingSpinner from "@/components/loadingSpinner";
+import InstructorsCard from "@/components/instructorsCard";
 
 const api =
   "https://api.10minuteschool.com/discovery-service/api/v1/products/ielts-course";
@@ -103,7 +100,11 @@ export default function Home({ data }: { data: ProductResponse<any> }) {
           </CourseSections>
 
           <CourseSections title={instructors?.name}>
-            <InstructorWrapper detail={instructors} />
+            {instructors?.values?.map((instructor: Instructors) => {
+              return (
+                <InstructorsCard key={instructor.slug} detail={instructor} />
+              );
+            })}
           </CourseSections>
 
           <CourseSections title={features?.name}>
@@ -139,11 +140,9 @@ export default function Home({ data }: { data: ProductResponse<any> }) {
 
           <CourseSections title={about?.name}>
             <div className="max-w-auto bg-white shadow dark:bg-gray-800 dark:border-gray-700">
-              <div id="accordion-collapse" data-accordion="collapse">
-                {about?.values?.map((about: About, i: number) => {
-                  return <CourseDetail key={i} detail={about} index={i + 1} />;
-                })}
-              </div>
+              {about?.values?.map((about: About, i: number) => {
+                return <CourseDetail key={i} detail={about} index={i + 1} />;
+              })}
             </div>
           </CourseSections>
         </div>
